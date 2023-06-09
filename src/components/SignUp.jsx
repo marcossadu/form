@@ -28,7 +28,13 @@ export const SignUp = ({ handleData }) => {
     }
     return null; // If no error is found, return null
   }
-
+ function GetInvalidDniError(dni){
+ 
+  if (!/^[0-9]{8}[A-Z]$/i.test(dni)) {
+    return "Esto no es un DNI.";
+  }
+  
+ }
   const [showPassword, setShowPassword] = useState(false);
 
   /* register your input into the hook by invoking the "register" function */
@@ -104,6 +110,30 @@ export const SignUp = ({ handleData }) => {
             </button>
             {errors.password?.type == "validate" && (
               <span className="text-error"> {errors.password.message}</span>
+            )}
+          </div>
+        </div>
+        
+        {/* DNI---------------- */}
+       
+        <div className="flex flex-col gap-2">
+          <label className="label-text">DNI</label>
+          <div className="flex flex-col relative">
+            <input
+              type="text"
+              className={`input input-md input-bordered w-full  ${
+                errors.dni? "input-error" : ""
+              }`}
+              placeholder="00000000X"
+              {...register("dni", {
+                //This is the validation
+                required: true,
+                validate: GetInvalidDniError,
+              })}
+            />
+           
+            {errors.dni?.type == "validate" && (
+              <span className="text-error"> {errors.dni.message}</span>
             )}
           </div>
         </div>
